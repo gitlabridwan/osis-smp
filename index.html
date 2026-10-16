@@ -1,43 +1,88 @@
 <!doctype html>
 <html lang="id">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#123e36">
-  <meta name="description" content="Portal OSIS untuk informasi kegiatan, pengurus, berita, dan aspirasi siswa.">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>OSIS | Satu Ruang Bersama</title>
-  <style>
-    :root { font-family: system-ui, sans-serif; color-scheme: light; }
-    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; background: #f6f8f7; color: #173f37; }
-    main { padding: 24px; text-align: center; }
-    h1 { font-size: clamp(22px, 4vw, 30px); }
-    p { line-height: 1.65; }
-    a { color: #123e36; font-weight: 600; }
-    a:focus-visible { outline: 3px solid #b37808; outline-offset: 4px; }
-  </style>
-</head>
-<body>
-  <main>
-    <h1>Membuka website OSIS…</h1>
-    <p>Jika belum terbuka, <a id="direct" target="_top" href="https://script.google.com/macros/s/AKfycbxKRY-9NiCG-eslWXt519gpSE2tHkXYftcgsv_qi3H2lTrMU6kncHm8UaOIfAFv57G4/exec">buka website OSIS langsung</a>.</p>
-    <noscript><p>Klik tautan di atas untuk membuka website OSIS.</p></noscript>
-  </main>
-  <script>
-    "use strict";
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#123e36" />
+    <meta name="description" content="Portal OSIS untuk informasi kegiatan, pengurus, berita, dan aspirasi siswa." />
+    <meta name="application-name" content="OSIS" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="OSIS" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxKRY-9NiCG-eslWXt519gpSE2tHkXYftcgsv_qi3H2lTrMU6kncHm8UaOIfAFv57G4/exec";
-    const target = new URL(WEB_APP_URL);
-    const page = new URLSearchParams(window.location.search).get("page");
+    <meta property="og:title" content="OSIS | Satu Ruang Bersama" />
+    <meta property="og:description" content="Kegiatan, kabar, dan aspirasi siswa dalam satu ruang bersama." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="og.png" />
 
-    if (["home", "website", "login", "register", "dashboard"].includes(page)) {
-      target.searchParams.set("page", page);
-    }
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+    <link rel="stylesheet" href="styles.css" />
 
-    document.getElementById("direct").href = target.href;
+    <title>OSIS | Satu Ruang Bersama</title>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <a class="skip-link" id="skip-link" href="#osis-frame">Langsung ke aplikasi</a>
 
-    // Buka Apps Script langsung di tab ini.
-    window.location.replace(target.href);
-  </script>
-</body>
+      <!-- app.js memasang src setelah pendengar load siap. -->
+      <iframe
+        id="osis-frame"
+        class="app-frame"
+        data-app-url="https://script.google.com/macros/s/AKfycbxKRY-9NiCG-eslWXt519gpSE2tHkXYftcgsv_qi3H2lTrMU6kncHm8UaOIfAFv57G4/exec"
+        title="Website OSIS"
+        allow="fullscreen; clipboard-read; clipboard-write"
+        loading="eager"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+        tabindex="0"
+      ></iframe>
+
+      <section class="launch-screen" id="launch-screen" role="status" aria-live="polite">
+        <img class="brand-icon" src="favicon.svg" width="76" height="76" alt="" />
+        <div class="brand-mark" aria-hidden="true">OSIS</div>
+        <h1>Satu Ruang Bersama</h1>
+        <p>Mempersiapkan ruang bersama Anda</p>
+        <span class="loader" aria-hidden="true"></span>
+      </section>
+
+      <a
+        class="direct-link"
+        id="direct-link"
+        href="https://script.google.com/macros/s/AKfycbxKRY-9NiCG-eslWXt519gpSE2tHkXYftcgsv_qi3H2lTrMU6kncHm8UaOIfAFv57G4/exec"
+        target="_top"
+      >Buka langsung <span aria-hidden="true">↗</span></a>
+
+      <div class="app-overlays">
+        <section class="status-card" id="status-card" role="status" aria-live="polite" hidden>
+          <span class="status-dot" aria-hidden="true"></span>
+          <div class="status-text">
+            <strong id="status-title">Anda sedang luring</strong>
+            <p id="status-copy">Konten OSIS memerlukan koneksi internet.</p>
+          </div>
+          <button id="reload-button" type="button">Muat ulang</button>
+        </section>
+
+        <button class="install-button" id="install-button" type="button" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"></path>
+          </svg>
+          Pasang aplikasi
+        </button>
+      </div>
+
+      <noscript>
+        <style>.launch-screen { display: none; }</style>
+        <section class="noscript-message">
+          <h1>Website OSIS</h1>
+          <p>Aktifkan JavaScript atau pilih “Buka langsung” untuk melanjutkan.</p>
+        </section>
+      </noscript>
+    </main>
+  </body>
 </html>
