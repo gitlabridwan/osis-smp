@@ -30,18 +30,21 @@
     <main class="app-shell">
       <a class="skip-link" id="skip-link" href="#osis-frame">Langsung ke aplikasi</a>
 
-      <!-- app.js memasang src setelah pendengar load siap. -->
-      <iframe
-        id="osis-frame"
-        class="app-frame"
-        data-app-url="https://script.google.com/macros/s/AKfycbxIDFzcO7_8M7tftwm4EYHD2iUiZggSvIUyNT6s9Lk3K90KIAlddICeR0lm7FF2xoCO/exec"
-        title="Website OSIS"
-        allow="fullscreen; clipboard-read; clipboard-write"
-        loading="eager"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
-        tabindex="0"
-      ></iframe>
+     
+<!-- Aplikasi OSIS dimuat langsung melalui iframe -->
+<iframe
+  id="osis-frame"
+  class="app-frame"
+  src="https://script.google.com/macros/s/AKfycbxIDFzcO7_8M7tftwm4EYHD2iUiZggSvIUyNT6s9Lk3K90KIAlddICeR0lm7FF2xoCO/exec"
+  data-app-url="https://script.google.com/macros/s/AKfycbxIDFzcO7_8M7tftwm4EYHD2iUiZggSvIUyNT6s9Lk3K90KIAlddICeR0lm7FF2xoCO/exec"
+  title="Website OSIS"
+  allow="fullscreen; clipboard-read; clipboard-write"
+  loading="eager"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+  tabindex="0"
+></iframe>
+
 
 
 
